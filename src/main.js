@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Navbar from './components/navbar/Navbar';
+import NavbarContainer from './components/navbar/NavbarContainer';
+
 
 document.addEventListener('DOMContentLoaded', function() {
   ReactDOM.render(
-    React.createElement(Navbar),
+    React.createElement(NavbarContainer),
     document.getElementById('mount')
   );
 });

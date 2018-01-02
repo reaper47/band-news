@@ -31,6 +31,8 @@
     "webpack-dev-middleware": "^2.0.3"
   },
   "devDependencies": {
-
+    "css-loader": "^0.28.7",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "style-loader": "^0.19.1"
   }
 }

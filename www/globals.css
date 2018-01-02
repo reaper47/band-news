@@ -1,0 +1,25 @@
+body {
+  background-color: #EEE;
+  font-family: sans-serif;
+  font-size: 25px;
+  margin: 0;
+  overflow: auto;
+  padding: 25px;
+}
+
+#slide_menu {
+  background-color: #FFE600;
+  height: 102vh;
+  left: 0;
+  overflow: scroll;
+  position: fixed;
+  top: 0;
+  transition: transform .3s cubic-bezier(0, 0.52, 0, 1);
+  width: 102vw;
+  z-index: 1000;
+}
+
+#slide_menu h2 a:hover {
+  text-decoration: underline;
+}
+

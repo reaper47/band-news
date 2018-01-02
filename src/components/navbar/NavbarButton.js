@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
+import styles from './styles.css';
 
 
-class NavbarButton extends React.Component {
+class NavbarButton extends Component {
   
   render() {
     return (
-      <div id="navbar-btn">
-        <button onClick={this.props.handler} title="toggle menu">
-          Click Me
-        </button>
-     </div>
+      <button className={styles.navbar_btn}
+              onMouseDown={this.props.handleMouseDown}
+              title="open menu">
+      </button>
    );
   }
   
