@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import NavbarContainer from './components/navbar/NavbarContainer';
+import HomePage from './HomePage';
 
 
 document.addEventListener('DOMContentLoaded', function() {
   ReactDOM.render(
-    React.createElement(NavbarContainer),
+    React.createElement(HomePage),
     document.getElementById('mount')
   );
 });

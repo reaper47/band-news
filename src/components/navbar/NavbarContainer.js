@@ -36,12 +36,15 @@ class NavbarContainer extends Component {
 
   render() {
     return (
-      <div id="navbar-root">
-        <NavbarButton handleMouseDown={this.handleMouseDown} />
-        <NavbarMenu handleMouseDown={this.handleMouseDown}
+      [
+        <NavbarButton key="NavbarButton" 
+                      handleMouseDown={this.handleMouseDown} />,
+        <NavbarMenu key="NavbarMenu"
+                    handleMouseDown={this.handleMouseDown}
                     menuShow={this.state.show} 
                     links={this.links} />
-      </div>
+      ]
+      
     );
   }
 }

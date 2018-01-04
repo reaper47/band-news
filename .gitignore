@@ -1,2 +1,6 @@
 node_modules
 www/bundle.js
+variables.env
+.cache/
+tests/python/__pycache__
+src/api/fb/__pycache__

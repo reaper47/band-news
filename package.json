@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "compile": "webpack",
+    "pyinstall": "pip3 install -r ./requirements.txt",
+    "pyinstallroot": "sudo npm run pyinstall",
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tests": "pytest ./tests/python"
   },
   "repository": {
     "type": "git",
