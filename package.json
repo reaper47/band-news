@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "webpack",
-    "pyinstall": "pip3 install -r ./requirements.txt",
-    "pyinstallroot": "sudo npm run pyinstall",
+    "pyinstall": "sudo pip3 install -r ./requirements.txt",
     "start": "node server.js",
     "tests": "pytest ./tests/python"
   },

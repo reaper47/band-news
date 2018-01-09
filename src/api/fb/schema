@@ -1,0 +1,7 @@
+Table 1:
+Band Name
+Facebook Name
+Country
+Info (Foreign Key)
+
+band_name=fb_name
