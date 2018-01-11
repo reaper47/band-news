@@ -1,0 +1,117 @@
+bands
+---
+id		int primary key
+name		str primary key
+genre   	str
+locId  		int references location.id
+
+location
+---
+id		int primary key
+country		str
+region		str
+city		str
+postalCode	str
+latitude	double
+longitude	double
+metroCode	str
+areaCode	str
+
+events
+---
+id		int primary key
+ticket_uri	str
+event_times	datetime
+start_time	datetime
+end_time	datetime
+time_zone	str
+description	str
+name		str
+updated_time	str
+fb_id		int references fb_info.id
+
+fb_info
+---
+id		int primary key
+about		str
+cover		str
+description	str
+fan_count	int
+likesId		int references fb_likes.id		
+
+fb_likes
+---
+id		int primary key
+name		str
+
+fb_posts
+---
+id		int primary key
+message		str
+full_picture	str
+properties	int references fb_post_video_properties.id
+source		str
+permalink_url	str
+name		str
+picture		str
+fb_id		int references fb_info.id
+
+fb_post_video_properties
+---
+id		int primary key
+name		str
+text		str
+
+fb_photos
+---
+id		int primary key
+picture		str
+albumId		int references fb_photos_album.id
+fb_id		int references fb_info.id
+
+fb_photos_album
+---
+id		int primary key
+created_time	datetime
+name		str
+
+fb_videos
+---
+id		int primary key
+custom_labels	str
+formatId	int references fb_videos_format.id		
+permalink_url	str
+title		str
+source		str
+description	str
+fb_id		int references fb_info.id
+
+fb_videos_format
+---
+id		int primary key
+embed_html	str
+filter		str
+height		int
+picture		str
+width		int
+
+
+websites
+---
+id		int primary key
+bandId		int references bands.id
+fb		int references websites_fb.id	
+official	int references websites_official.id
+
+websites_fb
+---
+id		int primary key
+facebook_name	str
+link		str
+
+websites_official
+---
+id		int primary key
+link		str
+
+
