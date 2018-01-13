@@ -6,7 +6,7 @@ dir = os.path.dirname(__file__) + '/../../src/api/fb'
 sys.path.append(dir)
 import auth
 
-TEST_ENV_FILE = './tests/python/variables.env.test'
+TEST_ENV_FILE = './spec/python/variables.env.test'
 
 
 class TestFbAuth(object):
@@ -39,6 +39,24 @@ class TestFbAuth(object):
         assert fb_access_token != oauth_exception
         assert len_token >= min_chars and len_token <= max_chars
 
+    def test_get_db_config(self):
+        user_expected = 'admin'
+        password_expected = 'password'
+        database_expected = 'testdb'
+        host_expected = 'localhost' 
+
+        config = auth.get_db_config(TEST_ENV_FILE)
+
+        user_actual = config['user']
+        password_actual = config['password']
+        database_actual = config['database']
+        host_actual = config['host']
+
+        assert user_expected == user_actual
+        assert password_expected == password_actual
+        assert database_actual == database_actual
+        assert host_expected == host_actual
+
     def test_retrieve_fb_access_token(self):
         fb_access_token_expected = '888'
         KEY = 'FB_API_ACCESS_TOKEN'
@@ -62,8 +80,4 @@ class TestFbAuth(object):
                     found = True
 
         assert found == True
-
-
-
-
 

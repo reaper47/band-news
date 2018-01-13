@@ -28,17 +28,17 @@ class FbGraph(object):
         videos = 'videos.limit(10){custom_labels,format,permalink_url,title,source,description}'
         website = 'website'
 
-        self.band_fields = '{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}'.format(
+        self.__band_fields = '{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}'.format(
                 about, cover, description, events, fans, genre,
                 likes, link, posts, photos, videos, website)
 
     def get_band_info(self, band):
         profile = self.graph.get_object(band)
-        info = self.graph.get_object(id=profile['id'], fields=self.band_fields)
+        info = self.graph.get_object(id=profile['id'], fields=self.__band_fields)
         info['realname'] = profile['name']
         return info
 
-    
+
 
 if __name__ == '__main__':
     FbGraph = FbGraph()

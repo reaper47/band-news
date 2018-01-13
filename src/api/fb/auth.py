@@ -59,6 +59,35 @@ def get_fb_access_token():
 
 
 
+def get_db_config(path):
+    config = {}
+    with open(path, 'r') as f:
+        for line in f:
+            s = line.split('=')
+            key = s[0]
+            val = s[1]
+
+            if key == "DB_CONFIG": 
+                v_split = val.split(',')
+
+                for el in v_split:
+                    param = el.split(':')
+                    field = param[0]
+                    field_val = param[1].replace('\n', '')
+
+                    if field == 'user':
+                        config['user'] = field_val
+                    elif field == 'password':
+                        config['password'] = field_val
+                    elif field == 'database':
+                        config['database'] = field_val
+                    elif field == 'host':
+                        config['host'] = field_val
+
+    return config
+
+
+
 def retrieve_fb_access_token(path):
     token = ''
     with open(path, 'r') as f:
@@ -71,6 +100,8 @@ def retrieve_fb_access_token(path):
                 token = val[:-1]
 
     return token
+
+
 
 
 

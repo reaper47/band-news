@@ -7,7 +7,7 @@
     "compile": "webpack",
     "pyinstall": "sudo pip3 install -r ./requirements.txt",
     "start": "node server.js",
-    "tests": "pytest ./tests/python",
+    "testpy": "pytest ./spec/python",
     "testjs": "./node_modules/jasmine/bin/jasmine.js"
   },
   "repository": {

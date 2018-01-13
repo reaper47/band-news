@@ -1,0 +1,10 @@
+witchcraft(SE)=witchcraft
+wolves_in_the_throne_room=wolvesinthethroneroom
+whispered=pages/Whispered/152411565720
+witchery(SE)=officialwitchery
+wolfchant=pages/Wolfchant/168334363212064
+wolfheart(FI)=WolfheartRealm
+wulfgar(DE)=WulfgarBlackMetal
+wulfgar(SE)=wulfgarband
+xandria=xandriaofficial
+zonaria=ZonariaOfficial

@@ -2,5 +2,6 @@ node_modules
 www/bundle.js
 variables.env
 .cache/
-tests/python/__pycache__
+spec/python/__pycache__
 src/api/fb/__pycache__
+src/api/__pycache__
