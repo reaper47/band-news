@@ -57,6 +57,16 @@ class TestFbAuth(object):
         assert database_actual == database_actual
         assert host_expected == host_actual
 
+    def test_retrieve_google_api_key(self):
+        google_api_key_expected = 'nbtui45yw47threugiwe4y63408673'
+        KEY = 'GOOGLE_API_KEY'
+        
+        auth.store_var_in_env(KEY, google_api_key_expected, TEST_ENV_FILE)
+        
+        google_api_key_actual = auth.retrieve_google_api_key(TEST_ENV_FILE)
+        
+        assert google_api_key_expected == google_api_key_actual
+
     def test_retrieve_fb_access_token(self):
         fb_access_token_expected = '888'
         KEY = 'FB_API_ACCESS_TOKEN'

@@ -50,22 +50,45 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table structure for `band_genres`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS band_genres;
+
+CREATE TABLE IF NOT EXISTS band_genres (
+    genre_id   INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    genre      VARCHAR(50)     NOT NULL,
+    
+    PRIMARY KEY (genre_id),
+    UNIQUE INDEX id_UNIQUE (genre_id ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table structure for `bands`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS bands;
 
 CREATE TABLE IF NOT EXISTS bands (
-    band_id    INT UNSIGNED    NOT NULL AUTO_INCREMENT,
-    name       VARCHAR(50)     NOT NULL,
-    genre      VARCHAR(50)     NOT NULL,
-    loc_id     INT UNSIGNED    NOT NULL,
-    PRIMARY KEY (band_id, loc_id),
+    band_id       INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    name          VARCHAR(50)     NOT NULL,
+    name_metallum VARCHAR(50)     NOT NULL,
+    name_fb       VARCHAR(50)     NOT NULL,
+    genre_id      INT UNSIGNED    NOT NULL,
+    loc_id        INT UNSIGNED    NOT NULL,
+    
+    PRIMARY KEY (band_id, genre_id, loc_id),
     UNIQUE INDEX id_UNIQUE (band_id ASC),
     INDEX loc_id_idx (loc_id ASC),
     CONSTRAINT loc_id_bands
         FOREIGN KEY (loc_id) 
 	    REFERENCES band_news.locations (loc_id)
-    ON DELETE CASCADE)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+    CONSTRAINT genre_id_bands
+        FOREIGN KEY (genre_id) 
+	    REFERENCES band_news.band_genres (genre_id)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -77,6 +100,7 @@ DROP TABLE IF EXISTS fb_likes ;
 CREATE TABLE IF NOT EXISTS fb_likes (
     fb_likes_id     INT UNSIGNED     NOT NULL AUTO_INCREMENT,
     name            VARCHAR(50)      NOT NULL,
+    
     PRIMARY KEY (fb_likes_id))
 ENGINE = InnoDB;
 
@@ -105,6 +129,23 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table structure for `event_times`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS event_times ;
+
+CREATE TABLE IF NOT EXISTS event_times (
+  event_time_id INT UNSIGNED     NOT NULL AUTO_INCREMENT,
+  start_time    DATETIME         NOT NULL,
+  end_time      DATETIME             NULL,
+  timezone      VARCHAR(20)      NOT NULL,
+  event_times   DATETIME             NULL,
+  
+  PRIMARY KEY (event_time_id),
+  INDEX event_time_idx (event_time_id ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table structure for `events`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS events ;
@@ -113,10 +154,7 @@ CREATE TABLE IF NOT EXISTS events (
   event_id      INT UNSIGNED     NOT NULL AUTO_INCREMENT,
   name          VARCHAR(100)     NOT NULL,
   description   VARCHAR(3000)        NULL,
-  start_time    DATETIME         NOT NULL,
-  end_time      DATETIME             NULL,
-  timezone      VARCHAR(20)      NOT NULL,
-  event_times   DATETIME             NULL,
+  event_time_id INT UNSIGNED     NOT NULL,
   ticket_uri    VARCHAR(255)         NULL,
   updated_time  DATETIME         NOT NULL,
   fb_id         INT UNSIGNED     NOT NULL,
@@ -133,6 +171,11 @@ CREATE TABLE IF NOT EXISTS events (
   CONSTRAINT loc_id_events
     FOREIGN KEY (loc_id)
     REFERENCES band_news.locations (loc_id)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT event_time_id_events
+    FOREIGN KEY (event_time_id)
+    REFERENCES band_news.event_times (event_time_id)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -225,6 +268,21 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table structure for `format_dimensions`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS format_dimensions ;
+
+CREATE TABLE IF NOT EXISTS format_dimensions (
+  dimension_id        INT UNSIGNED     NOT NULL AUTO_INCREMENT,
+  height              INT              NOT NULL,
+  width               INT              NOT NULL,
+  
+  PRIMARY KEY (dimension_id),
+  INDEX format_id_idx (dimension_id ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table structure for `fb_videos_format`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS fb_videos_format ;
@@ -232,12 +290,16 @@ DROP TABLE IF EXISTS fb_videos_format ;
 CREATE TABLE IF NOT EXISTS fb_videos_format (
   video_format_id     INT UNSIGNED     NOT NULL AUTO_INCREMENT,
   embed_html          VARCHAR(666)     NOT NULL,
-  height              INT              NOT NULL,
-  width               INT              NOT NULL,
+  dimension_id       INT UNSIGNED     NOT NULL,
   filter              VARCHAR(9)       NOT NULL,
   picture             VARCHAR(255)     NOT NULL,
   
-  PRIMARY KEY (video_format_id))
+  PRIMARY KEY (video_format_id),
+  CONSTRAINT dimensions_id_fbvideos
+    FOREIGN KEY (dimension_id)
+    REFERENCES band_news.dimension_id (dimension_id)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 

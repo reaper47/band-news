@@ -14,7 +14,6 @@ class Robot(object):
         self.robotparser = urllib.robotparser.RobotFileParser()
 
     def get_crawl_delay_website(self, website):
-        """ add condition when no crawl_delay"""
         robot_url = urllib.parse.urljoin(website, 'robots.txt')
 
         with urllib.request.urlopen(robot_url) as resp:
@@ -30,7 +29,7 @@ class Robot(object):
 
         return crawl_delay_seconds
 
-    def grab_els_from_metallum_bulk(self, bands_list, el):
+    def grab_els_from_metallum_bulk(self, bands_list):
         base = self.metal_archives_base
 
         self.read_robots_txt(base)
@@ -38,7 +37,7 @@ class Robot(object):
         can_fetch_base = self.robotparser.can_fetch('*', base)
         can_fetch_bands = self.robotparser.can_fetch('*', base + 'bands/')
 
-        elements = []
+        els = [] 
         if can_fetch_base and can_fetch_bands:
             crawl_delay = self.get_crawl_delay_website(base)
 
@@ -57,24 +56,21 @@ class Robot(object):
                     soup = soup_helpers.brew_soup_from_url(url)
                     partial_craw_start = datetime.now()
                 
-                if el == 'genre':
-                    el_fetched = soup_helpers.get_genre_from_soup_metallum(soup)
-                elif el == 'loc':
-                    el_fetched = soup_helpers.get_loc_from_soup_metallum(soup)
+                genre = soup_helpers.get_genre_from_soup_metallum(soup)
+                loc = soup_helpers.get_loc_from_soup_metallum(soup)
 
-                elements.append(el_fetched)
+                info_dict = dict(city=loc[0], country=loc[1], genre=genre)
+                els.append(info_dict)
 
                 diff = (datetime.now()-partial_crawl_start).total_seconds()
                 if diff < crawl_delay: 
                     time.sleep(diff)
 
-        return elements
+        return els
     
     def read_robots_txt(self, base_url):
         url_robot = urllib.parse.urljoin(base_url, 'robots.txt')
         self.robotparser.set_url(url_robot)
         self.robotparser.read()
         self.robotparser.modified()
-
-
 

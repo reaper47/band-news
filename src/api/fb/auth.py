@@ -10,6 +10,7 @@ FB_APP_SECRET = 'FB_APP_SECRET'
 FB_API_ACCESS_TOKEN = 'FB_API_ACCESS_TOKEN'
 FB_API_URL = 'https://graph.facebook.com/oauth/access_token?'
 FB_API_GRANT_TYPE = 'client_credentials'
+GOOGLE_API_KEY = 'GOOGLE_API_KEY'
 
 VARIABLES_PATH = os.path.join(dir, '../../../variables.env')
 
@@ -85,6 +86,21 @@ def get_db_config(path):
                         config['host'] = field_val
 
     return config
+
+
+
+def retrieve_google_api_key(path=VARIABLES_PATH):
+    token = ''
+    with open(path, 'r') as f:
+        for line in f:
+            split = line.split('=')
+            key = split[0]
+            val = split[1]
+
+            if key == GOOGLE_API_KEY:
+                token = val[:-1]
+
+    return token
 
 
 

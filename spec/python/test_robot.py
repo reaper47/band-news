@@ -13,61 +13,33 @@ class TestRobot(object):
 
     def setup(self):
         self.robot = robot.Robot()
-        self.container = bands_container.BandsContainer()
+
         self.bands_path = os.path.dirname(__file__) + '/bands_test.txt'
-        self.bands_list = self.container.load_bands(self.bands_path)['names']
-
+        self.container = bands_container.BandsContainer(self.bands_path)
+        self.bands_list = self.container.get_bands_list_names()
+        
     @pytest.mark.skip(reason=LONG_TEST)
-    def test_grab_genre_from_metallum_bulk(self):
-        el = 'genre'
-
-        genres_expected = [
-            'Doom Metal/Psychedelic Hard Rock',
-            'Black Metal',
-            'Melodic Death/Power Metal with Eastern Folk influences',
-            'Blackened Thrash/Speed Metal',
-            'Pagan/Folk Metal',
-            'Melodic Death Metal',
-            'Black Metal',
-            'Melodic Death Metal',
-            'Symphonic Metal',
-            'Melodic Death Metal'
-         ]
-
-        genres_actual = self.robot.grab_els_from_metallum_bulk(self.bands_list, el)
-
-        for item in zip(genres_expected, genres_actual):
-            expected, actual = item
-
-            assert expected == actual
-
-    @pytest.mark.skip(reason=LONG_TEST)
-    def test_grab_loc_from_metallum_bulk(self):
-        el = 'loc'
-
-        locs_expected = [
-            ('Örebro', 'Sweden'),
-            ('Olympia, Washington', 'United States'),
-            ('Riihimäki/Tampere', 'Finland'),
-            ('Linköping', 'Sweden'),
-            ('Sankt Oswald-Riedlhütte, Bavaria', 'Germany'),
-            ('Kouvola/Myrskylä', 'Finland'),
-            ('Großthiemig, Brandenburg', 'Germany'),
-            ('Kristianstad-Sölvesborg', 'Sweden'),
-            ('Bielefeld, North Rhine-Westphalia', 'Germany'),
-            ('Umeå', 'Sweden')
+    def test_grab_els_from_metallum_bulk(self):
+        num_els_expected = 3
+        els_expected = [
+            dict(city='örebro', country='sweden', genre='doom metal/psychedelic hard rock'),
+            dict(city='olympia, washington', country='united states', genre='black metal'),
+            dict(city='riihimäki/tampere', country='finland', genre='melodic death/power metal with eastern folk influences'),
+            dict(city='linköping', country='sweden', genre='blackened thrash/speed metal'),
+            dict(city='sankt oswald-riedlhütte, bavaria', country='germany', genre='pagan/folk metal'),
+            dict(city='kouvola/myrskylä', country='finland', genre='melodic death metal'),
+            dict(city='großthiemig, brandenburg', country='germany', genre='black metal'),
+            dict(city='kristianstad-sölvesborg', country='sweden', genre='melodic death metal'),
+            dict(city='bielefeld, north rhine-westphalia', country='germany', genre='symphonic metal'),
+            dict(city='umeå', country='sweden', genre='melodic death metal')
         ]
 
-        locs_actual = self.robot.grab_els_from_metallum_bulk(self.bands_list, el)
+        els_actual = self.robot.grab_els_from_metallum_bulk(self.bands_list)
 
-        for item in zip(locs_expected, locs_actual):
-            item_expected, item_actual = item
-
-            for subitem in zip(item_expected, item_actual):
-                sub_expected, sub_actual = subitem
-
-                assert sub_expected == sub_actual
-
+        for item in zip(els_expected, els_actual):
+            expected, actual = item
+            shared_items = set(expected.items()) & set(actual.items())
+            assert len(shared_items) == num_els_expected
 
     def test_get_crawl_delay_website(self):
         crawl_delay_metallum_expected = 3.0
@@ -86,3 +58,4 @@ class TestRobot(object):
         time_after_read = self.robot.robotparser.mtime()
 
         assert time_after_read > initial_modified_time
+

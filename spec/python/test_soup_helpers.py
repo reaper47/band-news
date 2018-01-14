@@ -36,21 +36,21 @@ class TestSoupHelpers(object):
         assert status_expected == status_actual
 
     def test_get_genre_from_soup_metallum(self):
-        genre_expected = 'Melodic Death Metal'
+        genre_expected = 'melodic death metal'
 
         genre_actual = soup_helpers.get_genre_from_soup_metallum(self.test_soup2)
 
         assert genre_expected == genre_actual
 
     def test_get_loc_from_soup_metallum(self):
-        loc_expected = ('Stockholm', 'Sweden')
+        loc_expected = ('stockholm', 'sweden')
 
         loc_actual = soup_helpers.get_loc_from_soup_metallum(self.test_soup2)
         
         for item in zip(loc_expected, loc_actual):
-            city, country = item
+            expected, actual = item
 
-            assert city == country
+            assert expected == actual
 
     def test_url_from_atags_soup_metallum(self):
         country_code = '(DE)'

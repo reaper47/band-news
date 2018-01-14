@@ -17,7 +17,7 @@ def fetch_countries_for_db():
     return countries_list
 
 
-def fetch_geo_data_for_db(place):
+def fetch_geo_data_for_db(place, api_key):
     geodata = {}
 
     fields = [
@@ -26,7 +26,7 @@ def fetch_geo_data_for_db(place):
         'postal', 'lat', 'lng', 'address'
     ]
 
-    data = geocoder.google(place).json
+    data = geocoder.google(place, key=api_key).json
 
     for field in fields:
         if field == 'country_short':

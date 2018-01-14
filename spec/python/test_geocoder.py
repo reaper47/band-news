@@ -1,7 +1,10 @@
 import sys
 import os
 dir = ''.join([os.path.dirname(__file__), '/../../src/api'])
+dir2 = ''.join([os.path.dirname(__file__), '/../../src/api/fb'])
 sys.path.append(dir)
+sys.path.append(dir2)
+import auth
 import geocoder_helpers
 import pytest
 
@@ -9,7 +12,7 @@ import pytest
 class TestGeocoderHelpers(object):
 
     def setup(self):
-        pass
+        self.google_api_key = auth.retrieve_google_api_key()
 
     def test_fetch_countries_for_db(self):
         countries_actual = [
@@ -24,7 +27,7 @@ class TestGeocoderHelpers(object):
             (32, 'ar', 'argentina'),
             (51, 'am', 'armenia')
         ]
-
+        
         countries_expected = geocoder_helpers.fetch_countries_for_db()
 
         count = 0
@@ -38,13 +41,12 @@ class TestGeocoderHelpers(object):
                 count += 1
                 val_expected, val_actual = subitem
 
-                assert val_expected == val_actual
-
-                
-
+                assert val_expected == val_actual       
+    
     def test_fetch_geo_data_for_db_qc(self):
         place = '1920 rue Victor-L-Laurin'
 
+        num_els_eq_geo_expected = 10
         geo_expected = {
                 'housenumber': 1920,
                 'street': 'rue victor l laurin',
@@ -58,22 +60,16 @@ class TestGeocoderHelpers(object):
                 'address': "1920 rue victor l laurin, l'ancienne-lorette, qc g2e 5y6, canada"
         }
 
-        geo_actual = geocoder_helpers.fetch_geo_data_for_db(place)
+        geo_actual = geocoder_helpers.fetch_geo_data_for_db(place, self.google_api_key)
 
-        assert geo_expected['housenumber'] == geo_actual['housenumber']
-        assert geo_expected['street'] == geo_actual['street']
-        assert geo_expected['city'] == geo_actual['city']
-        assert geo_expected['state'] == geo_actual['state']
-        assert geo_expected['country_short'] == geo_actual['country_short']
-        assert geo_expected['country_long'] == geo_actual['country_long']
-        assert geo_expected['postal'] == geo_actual['postal']
-        assert geo_expected['lat'] == geo_actual['lat']
-        assert geo_expected['lng'] == geo_actual['lng']
-        assert geo_expected['address'] == geo_actual['address']
+        shared_items = set(geo_expected.items()) & set(geo_actual.items())
+
+        assert len(shared_items) == num_els_eq_geo_expected
 
     def test_fetch_geo_data_for_db_sweden(self):
         place = 'stockholm, sweden'
 
+        num_els_eq_geo_expected = 7
         geo_expected = {
                 'city': "stockholm",
                 'state': 'stockholm county',
@@ -84,19 +80,11 @@ class TestGeocoderHelpers(object):
                 'address': "stockholm, sweden"
         }
 
-        geo_actual = geocoder_helpers.fetch_geo_data_for_db(place)
+        geo_actual = geocoder_helpers.fetch_geo_data_for_db(place, self.google_api_key)
+        
+        shared_items = set(geo_expected.items()) & set(geo_actual.items())
 
-        assert 'housenumber' not in geo_actual
-        assert 'street' not in geo_actual
-        assert geo_expected['city'] == geo_actual['city']
-        assert geo_expected['state'] == geo_actual['state']
-        assert geo_expected['country_short'] == geo_actual['country_short']
-        assert geo_expected['country_long'] == geo_actual['country_long']
-        assert 'postal' not in geo_actual
-        assert geo_expected['lat'] == geo_actual['lat']
-        assert geo_expected['lng'] == geo_actual['lng']
-        assert geo_expected['address'] == geo_actual['address']
-
-
+        assert len(shared_items) == num_els_eq_geo_expected
+       
 
 

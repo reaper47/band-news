@@ -48,7 +48,7 @@ def get_genre_from_soup_metallum(soup):
         dt, dd = item
             
         if 'genre' in dt.string.lower():
-            genre = dd.string
+            genre = dd.string.lower()
             break
 
     return genre
@@ -66,10 +66,10 @@ def get_loc_from_soup_metallum(soup):
         dt, dd = item
 
         if 'location' in dt.string.lower():
-            city = dd.string
+            city = dd.string.lower()
 
         if 'country' in dt.string.lower():
-            country = dd.string
+            country = dd.string.lower()
 
     return (city, country)
 
