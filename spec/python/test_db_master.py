@@ -1,6 +1,6 @@
 import sys
 import os
-dir = os.path.dirname(__file__) + '/../../src/api/fb'
+dir = ''.join([os.path.dirname(__file__), '/../../src/api'])
 sys.path.append(dir)
 import db_master
 import pytest
@@ -12,7 +12,7 @@ class TestDbMaster(object):
 
     def setup(self):
         self.db = db_master.DbMaster()
-        self.db_conn_status = self.db.connect_to_database()
+        self.db_conn_status = self.db.open_connection()
 
         assert self.db_conn_status == OPEN
 

@@ -1,6 +1,6 @@
 import sys
 import os
-dir = os.path.dirname(__file__) + '/../../src/api'
+dir = ''.join([os.path.dirname(__file__), '/../../src/api'])
 sys.path.append(dir)
 import robot
 import bands_container
