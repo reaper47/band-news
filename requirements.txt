@@ -38,7 +38,7 @@ pysmbc==1.0.15.8
 pytest==3.3.1
 python-dateutil==2.6.1
 pytz==2017.3
-PyYAML==3.12
+PyYAML==5.1
 ratelim==0.1.6
 readlike==0.1.2
 ReParser==1.4.3
