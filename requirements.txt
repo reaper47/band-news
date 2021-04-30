@@ -26,7 +26,7 @@ pafy==0.5.3.1
 peppercorn==0.5
 pluggy==0.6.0
 protobuf==3.1.0.post1
-py==1.5.2
+py==1.10.0
 pycairo==1.14.1
 pycountry==17.9.23
 pycups==1.9.73
